@@ -8,6 +8,18 @@ A python pygame project.
 * Python 3.*
 * Pygame
 
+# Controls
+
+key    | Action
+:-----:|:--------------:
+up     |  move up
+down   |  move down
+left   |  move left
+rigjt  |  move right
+space  |  fire bullet
+q      |  quit
+
+
 # Screenshots
 ![preview1](preview1.png)
 
