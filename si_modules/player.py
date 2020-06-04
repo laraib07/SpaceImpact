@@ -11,12 +11,8 @@ class Player :
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
 
-        # start the ship at left cenntre of the screen
+        # start the ship at left centre of the screen
         self.center_ship()
-
-        # store a decimal value for the player's center.
-        self.centery = float(self.rect.centery)
-        self.centerx = float(self.rect.centerx)
 
         # movement flags
         self.moving_up = False
@@ -27,6 +23,10 @@ class Player :
 
     def center_ship(self) :
         self.rect.midleft = self.screen_rect.midleft
+
+        # store a decimal value for the player's center.
+        self.centery = float(self.rect.centery)
+        self.centerx = float(self.rect.centerx)
 
 
     def update(self):
