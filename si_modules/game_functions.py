@@ -69,7 +69,7 @@ def check_play_button(stats, play_button, mouse_x, mouse_y) :
 
 def check_restart_button(stats, restart_button, mouse_x, mouse_y, bullets, player, enemy, sb):
     '''Start a new game when the player clicks Restart'''
-    if restart_button.rect.collidepoint(mouse_x, mouse_y) :
+    if restart_button.rect.collidepoint(mouse_x, mouse_y) and stats.game_over :
         restart_game(stats, bullets, player, enemy, sb)
         
 
