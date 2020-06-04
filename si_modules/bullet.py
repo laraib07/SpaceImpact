@@ -11,8 +11,7 @@ class Bullet(Sprite) :
 
         # create a bullet rect at (0,0) and then set correct position
         self.rect = pygame.Rect(0,0,si_settings.bullet_width, si_settings.bullet_height)
-        self.rect.centery = player.rect.centery
-        self.rect.right = player.rect.right
+        self.rect.center = player.rect.center
 
         self.color = si_settings.bullet_color
         self.speed_factor = si_settings.bullet_speed_factor

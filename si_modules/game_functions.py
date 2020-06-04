@@ -3,10 +3,10 @@ import pygame
 from si_modules.bullet import Bullet
 from si_modules.enemy import Enemy
 from time import sleep
-
+from math import sqrt, pow
 
 def check_keydown_event(event,si_settings, screen, player, bullets):
-    """Responce to keypresses."""
+    '''Responce to keypresses.'''
     if event.key == pygame.K_UP :
         player.moving_up = True
 
@@ -27,7 +27,7 @@ def check_keydown_event(event,si_settings, screen, player, bullets):
 
 
 def check_keyup_event(event,player):
-    """Responce to key releases."""
+    '''Responce to key releases.'''
     if event.key == pygame.K_UP :
         player.moving_up = False
 
@@ -42,7 +42,7 @@ def check_keyup_event(event,player):
 
 
 def check_events(si_settings, screen, player, enemy, bullets, stats, sb, play_button, restart_button) :
-    """Respond to keypresses and mouse events"""
+    '''Respond to keypresses and mouse events'''
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
@@ -74,7 +74,7 @@ def check_restart_button(stats, restart_button, mouse_x, mouse_y, bullets, playe
         
 
 def update_screen(si_settings, screen, player, enemy, bullets, stats, play_button, restart_button, sb):
-    """Update images on the screen and flip to the new screen"""
+    '''Update images on the screen and flip to the new screen'''
     # Redraw the screen during each pass through the loop
     screen.fill(si_settings.bg_color)
 
@@ -139,7 +139,9 @@ def check_bullet_enemy_collision(enemy, bullets, stats, si_settings, sb) :
 
 
 def check_player_enemy_collision(player,enemy):
-    return abs(player.rect.centery - enemy.rect.centery) < 32 and player.rect.centerx > enemy.rect.left
+    distance = sqrt(pow(player.rect.centerx - enemy.rect.centerx,2) + pow(player.rect.centery - enemy.rect.centery, 2))
+    return distance < 50
+
 
 
 def life_loss(player, enemy, bullets, stats) :
