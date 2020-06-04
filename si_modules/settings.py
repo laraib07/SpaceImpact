@@ -1,10 +1,10 @@
 
 
 class Settings :
-    """A class to store all settings for Space Impact"""
+    '''A class to store all settings for Space Impact'''
 
     def __init__(self):
-        """initialize game's settings."""
+        '''initialize game's settings.'''
 
         # screen settings
         self.screen_width = 800

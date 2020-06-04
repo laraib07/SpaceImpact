@@ -5,7 +5,7 @@ from si_modules.enemy import Enemy
 from time import sleep
 from math import sqrt, pow
 
-def check_keydown_event(event,si_settings, screen, player, bullets):
+def check_keydown_event(event,si_settings, screen, player, bullets, stats):
     '''Responce to keypresses.'''
     if event.key == pygame.K_UP :
         player.moving_up = True
@@ -18,6 +18,10 @@ def check_keydown_event(event,si_settings, screen, player, bullets):
 
     elif event.key == pygame.K_LEFT :
         player.moving_left = True
+
+    elif event.key == pygame.K_ESCAPE :
+        stats.game_active = False
+        pygame.mouse.set_visible(True)
 
     elif event.key == pygame.K_q:
         sys.exit()
@@ -48,7 +52,7 @@ def check_events(si_settings, screen, player, enemy, bullets, stats, sb, play_bu
             sys.exit()
 
         elif event.type == pygame.KEYDOWN :
-            check_keydown_event(event, si_settings, screen, player, bullets)
+            check_keydown_event(event, si_settings, screen, player, bullets, stats)
 
         elif event.type == pygame.KEYUP :
             check_keyup_event(event, player)
@@ -71,7 +75,7 @@ def check_restart_button(stats, restart_button, mouse_x, mouse_y, bullets, playe
     '''Start a new game when the player clicks Restart'''
     if restart_button.rect.collidepoint(mouse_x, mouse_y) and stats.game_over :
         restart_game(stats, bullets, player, enemy, sb)
-        
+
 
 def update_screen(si_settings, screen, player, enemy, bullets, stats, play_button, restart_button, sb):
     '''Update images on the screen and flip to the new screen'''
@@ -105,8 +109,8 @@ def update_enemy(si_settings, enemy, player, stats, bullets) :
     enemy.update()
 
     if enemy.check_edge() or check_player_enemy_collision(player, enemy) :
-        life_loss(player, enemy, bullets, stats) 
-    
+        life_loss(player, enemy, bullets, stats)
+
 
 def fire_bullet(si_settings, screen, player, bullets):
     # create a  new bullet and add it to th bullets group
@@ -121,12 +125,12 @@ def update_bullets(enemy, bullets, stats, si_settings, sb):
     # update bullet position
     bullets.update()
 
-        # Get rid of old bullets
+    # Get rid of old bullets
     for bullet in bullets.copy():
         if bullet.rect.right > 800 :
             bullets.remove(bullet)
 
-    check_bullet_enemy_collision(enemy, bullets, stats, si_settings, sb) 
+    check_bullet_enemy_collision(enemy, bullets, stats, si_settings, sb)
 
 
 def check_bullet_enemy_collision(enemy, bullets, stats, si_settings, sb) :
@@ -165,6 +169,6 @@ def restart_game(stats, bullets, player, enemy, sb):
     bullets.empty()
     player.center_ship()
     enemy.random_position()
-   
+
     # Hide the mouse cursor.
     pygame.mouse.set_visible(False)

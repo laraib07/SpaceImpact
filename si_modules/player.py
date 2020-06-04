@@ -26,8 +26,7 @@ class Player :
 
 
     def center_ship(self) :
-        self.rect.centery = self.screen_rect.centery
-        self.rect.left = self.screen_rect.left
+        self.rect.midleft = self.screen_rect.midleft
 
 
     def update(self):
