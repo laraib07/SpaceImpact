@@ -1,5 +1,6 @@
-import pygame
 import random
+import pygame
+from pygame import mixer
 from si_modules.settings import Settings
 
 class Enemy() :
@@ -13,6 +14,7 @@ class Enemy() :
 
         # Load the enemy image and set its rect attribute
         self.image = pygame.image.load('resources/icons/enemy.png')
+        self.explosion = mixer.Sound('resources/sounds/explosion.wav')
         self.rect = self.image.get_rect()
 
         # Start each enemy at random position
@@ -41,3 +43,5 @@ class Enemy() :
         '''Return True if enemy reached edge of screen.'''
         return self.rect.x <= 0
 
+    def explosion_sound(self) :
+        self.explosion.play()

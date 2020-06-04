@@ -1,5 +1,6 @@
 import sys
 import pygame
+from pygame import mixer
 from si_modules.bullet import Bullet
 from si_modules.enemy import Enemy
 from time import sleep
@@ -138,24 +139,27 @@ def check_bullet_enemy_collision(enemy, bullets, stats, si_settings, sb) :
     # if so get rid of enmy and bullet
     if pygame.sprite.spritecollide(enemy, bullets, True):
         stats.score += si_settings.enemy_points
+        enemy.explosion_sound()
         sb.prep_score()
         enemy.random_position()
 
 
 def check_player_enemy_collision(player,enemy):
     distance = sqrt(pow(player.rect.centerx - enemy.rect.centerx,2) + pow(player.rect.centery - enemy.rect.centery, 2))
-    return distance < 50
+    if distance < 50 :
+        enemy.explosion_sound()
+        return True
 
 
 
 def life_loss(player, enemy, bullets, stats) :
-    sleep(0.5)
     if stats.life_left > 1 :
         # Decrement life value
         stats.life_left -= 1
         bullets.empty()
         player.center_ship()
         enemy.random_position()
+        sleep(0.5)
 
     else :
         stats.game_active = False
