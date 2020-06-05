@@ -171,7 +171,7 @@ def explosion_animation(ex,enemy):
 
 
 def life_loss(player, enemy, bullets, stats):
-    if stats.life_left > 1:
+    if stats.life_left > 0:
         # Decrement life value
         stats.life_left -= 1
         bullets.empty()
@@ -180,6 +180,7 @@ def life_loss(player, enemy, bullets, stats):
         sleep(0.5)
 
     else:
+        enemy.random_position()
         stats.game_active = False
         stats.game_over = True
         pygame.mouse.set_visible(True)
