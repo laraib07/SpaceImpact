@@ -182,7 +182,7 @@ def life_loss(player, enemy, bullets, stats):
         bullets.empty()
         player.center_ship()
         enemy.random_position()
-        sleep(0.5)
+        # sleep(0.5)
 
     else:
         enemy.random_position()
