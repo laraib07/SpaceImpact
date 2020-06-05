@@ -47,7 +47,7 @@ def run_game():
 
         if stats.game_active:
             player.update()
-            gf.update_enemy(si_settings, enemy, player, stats, bullets)
+            gf.update_enemy(si_settings, enemy, player, stats, bullets, ex)
             gf.update_bullets(enemy, ex, bullets, stats, si_settings, sb)
 
         gf.update_screen(si_settings, screen, player, enemy, ex,
