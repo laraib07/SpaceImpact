@@ -32,8 +32,8 @@ def run_game():
     bullets = Group()
 
     # Make the Play and Restart button.
-    play_button = Button(si_settings, screen, "PLAY")
-    restart_button = Button(si_settings,  screen, "RESTART")
+    play_button = Button(screen, "PLAY")
+    restart_button = Button(screen, "RESTART")
 
     # Create instance to store game stats
     stats = GameStats(si_settings)
@@ -51,7 +51,7 @@ def run_game():
 
         if stats.game_active:
             player.update()
-            gf.update_enemy(si_settings, enemy, player, stats, bullets, ex)
+            gf.update_enemy(enemy, player, stats, bullets, ex)
             gf.update_bullets(enemy, ex, bullets, stats, si_settings, sb)
 
         gf.update_screen(si_settings, screen, player, enemy, ex,
