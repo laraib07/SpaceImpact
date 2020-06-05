@@ -9,27 +9,32 @@ from math import sqrt, pow
 
 def check_keydown_event(event, si_settings, screen, player, bullets, stats):
     '''Responce to keypresses.'''
-    if event.key == pygame.K_UP:
-        player.moving_up = True
+    if stats.game_active:
+        if event.key == pygame.K_UP:
+            player.moving_up = True
 
-    elif event.key == pygame.K_DOWN:
-        player.moving_down = True
+        elif event.key == pygame.K_DOWN:
+            player.moving_down = True
 
-    elif event.key == pygame.K_RIGHT:
-        player.moving_right = True
+        elif event.key == pygame.K_RIGHT:
+            player.moving_right = True
 
-    elif event.key == pygame.K_LEFT:
-        player.moving_left = True
+        elif event.key == pygame.K_LEFT:
+            player.moving_left = True
 
-    elif event.key == pygame.K_ESCAPE:
-        stats.game_active = False
-        pygame.mouse.set_visible(True)
+        elif event.key == pygame.K_SPACE:
+            fire_bullet(si_settings, screen, player, bullets)
+
+    if event.key == pygame.K_ESCAPE:
+        if stats.game_active:
+            stats.game_active = False
+            pygame.mouse.set_visible(True)
+        else:
+            stats.game_active = True
+            pygame.mouse.set_visible(False)
 
     elif event.key == pygame.K_q:
         sys.exit()
-
-    elif event.key == pygame.K_SPACE:
-        fire_bullet(si_settings, screen, player, bullets)
 
 
 def check_keyup_event(event, player):
