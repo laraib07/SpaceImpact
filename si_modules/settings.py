@@ -5,8 +5,7 @@ class Settings:
         '''initialize game's settings.'''
 
         # screen settings
-        self.screen_width = 800
-        self.screen_height = 600
+        self.screen_size = (800, 600)
         self.bg_color = (36, 32, 55)
         self.bg_image = 'resources/icons/background.png'
         self.game_icon = 'resources/icons/game_icon.png'
@@ -20,7 +19,7 @@ class Settings:
         self.player_limit = 3
 
         # enemy speed
-        self.enemy_speed_factor = 8.0
+        self.enemy_speed_factor = 12.0
         self.enemy_points = 50
 
         # bullet settings

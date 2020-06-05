@@ -11,6 +11,8 @@ class Player(Explosion):
         '''Initialize the player and set its starting position.'''
         self.screen = screen
         self.si_settings = si_settings
+        
+        # initialize explosion __init__()
         super().__init__()
 
         # Load player image and get its rect

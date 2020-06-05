@@ -1,9 +1,7 @@
 import pygame
-from pygame.sprite import Group
 
 from si_modules.player import Player
 from si_modules.enemy import Enemy
-from si_modules.explosion import Explosion
 from si_modules.settings import Settings
 from si_modules.game_stats import GameStats
 from si_modules.button import Button
@@ -15,8 +13,7 @@ import si_modules.game_functions as gf
 def run_game():
     # create screen
     si_settings = Settings()
-    screen = pygame.display.set_mode(
-        (si_settings.screen_width, si_settings.screen_height))
+    screen = pygame.display.set_mode(si_settings.screen_size)
 
     # Title and icon
     pygame.display.set_caption("Space Impact")

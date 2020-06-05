@@ -12,7 +12,8 @@ class Enemy(Explosion):
         self.screen_rect = self.screen.get_rect()
         self.si_settings = si_settings
 
-        super().__init__()
+        # initialize explosion __init__()
+        super().__init__()  
 
         # Load the enemy image and set its rect attribute
         self.image = pygame.image.load('resources/icons/enemy.png')
