@@ -7,8 +7,8 @@ class Settings:
         '''initialize game's settings.'''
 
         # screen settings
-        self.screen_width = 1200
-        self.screen_height = 800
+        self.screen_width = 800
+        self.screen_height = 600
         self.bg_color = (36, 32, 55)
         self.bg_image = 'resources/icons/background.png'
         self.game_icon = 'resources/icons/game_icon.png'
