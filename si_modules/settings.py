@@ -18,15 +18,15 @@ class Settings:
         self.font_color = (255, 255, 255)
 
         # player speed
-        self.player_speed_factor = 1.0
+        self.player_speed_factor = 10.0
         self.player_limit = 3
 
         # enemy speed
-        self.enemy_speed_factor = 0.1
+        self.enemy_speed_factor = 8.0
         self.enemy_points = 50
 
         # bullet settings
-        self.bullet_speed_factor = 2
+        self.bullet_speed_factor = 15
         self.bullet_width = 15
         self.bullet_height = 3
         self.bullet_color = (226, 24, 0)   # red
