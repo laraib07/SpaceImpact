@@ -39,15 +39,19 @@ def run_game():
     stats = GameStats(si_settings)
     sb = Scoreboard(si_settings, screen, stats)
 
+    # set frames per second
+    clock = pygame.time.Clock()
+
     # game loop
     while True:
+        clock.tick(30)
 
         gf.check_events(si_settings, screen, player, enemy,
                         bullets, stats, sb, play_button, restart_button)
 
         if stats.game_active:
             player.update()
-            gf.update_enemy(si_settings, enemy, player, stats, bullets)
+            gf.update_enemy(si_settings, enemy, player, stats, bullets, ex)
             gf.update_bullets(enemy, ex, bullets, stats, si_settings, sb)
 
         gf.update_screen(si_settings, screen, player, enemy, ex,

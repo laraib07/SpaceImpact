@@ -117,11 +117,11 @@ def update_screen(si_settings, screen, player, enemy, ex, bullets, stats, play_b
     pygame.display.flip()
 
 
-def update_enemy(si_settings, enemy, player, stats, bullets):
+def update_enemy(si_settings, enemy, player, stats, bullets, ex):
     # update enemy position
     enemy.update()
 
-    if enemy.check_edge() or check_player_enemy_collision(player, enemy):
+    if enemy.check_edge() or check_player_enemy_collision(player, enemy, ex):
         life_loss(player, enemy, bullets, stats)
 
 
@@ -154,31 +154,38 @@ def check_bullet_enemy_collision(enemy, ex, bullets, stats, si_settings, sb):
     if collision:
         stats.score += si_settings.enemy_points
         enemy.explosion_sound()
-        for i in range(9):
-            ex.explosion_rect[i].center = enemy.rect.center
-        ex.explode = True
+        explosion_animation(ex, enemy)
         sb.prep_score()
         enemy.random_position()
 
 
-def check_player_enemy_collision(player, enemy):
+def check_player_enemy_collision(player, enemy, ex):
     distance = sqrt(pow(player.rect.centerx - enemy.rect.centerx,
                         2) + pow(player.rect.centery - enemy.rect.centery, 2))
     if distance < 50:
         enemy.explosion_sound()
+        explosion_animation(ex, enemy)
         return True
 
 
+def explosion_animation(ex,enemy):
+    for i in range(9):
+        ex.explosion_rect[i].center = enemy.rect.center
+    ex.explode = True
+
+
+
 def life_loss(player, enemy, bullets, stats):
-    if stats.life_left > 1:
+    if stats.life_left > 0:
         # Decrement life value
         stats.life_left -= 1
         bullets.empty()
         player.center_ship()
         enemy.random_position()
-        sleep(0.5)
+        # sleep(0.5)
 
     else:
+        enemy.random_position()
         stats.game_active = False
         stats.game_over = True
         pygame.mouse.set_visible(True)

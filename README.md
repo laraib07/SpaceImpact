@@ -2,6 +2,7 @@
 A python pygame project.
 
 ### created by [Laraib07](https://github.com/laraib07)
+### contributed by [MrAlpha786](https://github.com/MrAlpha786)
 
 # Requirements
 
@@ -18,7 +19,7 @@ left   |  move left
 rigjt  |  move right
 space  |  fire bullet
 q      |  quit
-
+ESC    |  pause
 
 # Screenshots
 ![preview1](preview1.png)
