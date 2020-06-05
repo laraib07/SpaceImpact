@@ -6,7 +6,7 @@ from pygame import mixer
 class Bullet(Sprite):
     """A class to manage bullet fired from ship."""
 
-    def __init__(self, si_settings, screen, player):
+    def __init__(self, si_settings, screen, ship_rect):
         '''Create a bullet object at the palyer's current postion'''
         super(Bullet, self).__init__()
         self.screen = screen
@@ -14,7 +14,7 @@ class Bullet(Sprite):
         # create a bullet rect at (0,0) and then set correct position
         self.rect = pygame.Rect(
             0, 0, si_settings.bullet_width, si_settings.bullet_height)
-        self.rect.center = player.rect.center
+        self.rect.center = ship_rect.center
 
         self.color = si_settings.bullet_color
         self.speed_factor = si_settings.bullet_speed_factor
@@ -23,9 +23,11 @@ class Bullet(Sprite):
         fire_sound = mixer.Sound('resources/sounds/bullet.wav')
         fire_sound.play()
 
+
     def update(self):
         '''Move the bullet right the screen'''
         self.rect.x += self.speed_factor
+
 
     def draw_bullet(self):
         '''Draw the bullet to the screen'''

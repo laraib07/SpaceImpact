@@ -23,13 +23,10 @@ def run_game():
     icon = pygame.image.load(si_settings.game_icon)
     pygame.display.set_icon(icon)
 
-    # Create a explosion object
-    ex = Explosion(si_settings, screen)
 
-    # creating player , enemy and bullet
+    # creating player and  enemy 
     player = Player(si_settings, screen)
     enemy = Enemy(si_settings, screen)
-    bullets = Group()
 
     # Make the Play and Restart button.
     play_button = Button(screen, "PLAY")
@@ -47,15 +44,15 @@ def run_game():
         clock.tick(30)
 
         gf.check_events(si_settings, screen, player, enemy,
-                        bullets, stats, sb, play_button, restart_button)
+                         stats, sb, play_button, restart_button)
 
         if stats.game_active:
             player.update()
-            gf.update_enemy(enemy, player, stats, bullets, ex)
-            gf.update_bullets(enemy, ex, bullets, stats, si_settings, sb)
+            gf.update_enemy(enemy, player, stats)
+            gf.update_bullets(enemy, player,  stats, si_settings, sb)
 
-        gf.update_screen(si_settings, screen, player, enemy, ex,
-                         bullets, stats, play_button, restart_button, sb)
+        gf.update_screen(si_settings, screen, player, enemy,
+                          stats, play_button, restart_button, sb)
 
 
 if __name__ == "__main__":

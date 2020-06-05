@@ -1,11 +1,17 @@
 import pygame
+from pygame.sprite import Group
+from si_modules.bullet import Bullet
+from si_modules.explosion import Explosion
 
 
-class Player:
+class Player(Explosion):
+    '''A class to represent player.'''
+
     def __init__(self, si_settings, screen):
         '''Initialize the player and set its starting position.'''
         self.screen = screen
         self.si_settings = si_settings
+        super().__init__()
 
         # Load player image and get its rect
         self.image = pygame.image.load('resources/icons/player.png')
@@ -15,17 +21,23 @@ class Player:
         # start the ship at left centre of the screen
         self.center_ship()
 
+        # add bullets
+        self.bullets = Group()
+
         # movement flags
         self.moving_up = False
         self.moving_down = False
         self.moving_right = False
         self.moving_left = False
+
+
     def center_ship(self):
         self.rect.midleft = self.screen_rect.midleft
 
         # store a decimal value for the player's center.
         self.centery = float(self.rect.centery)
         self.centerx = float(self.rect.centerx)
+
 
     def update(self):
         '''Update the player's postion based on movement flag.'''
@@ -44,6 +56,19 @@ class Player:
         # update rect objectfrom self.center
         self.rect.centery = self.centery
         self.rect.centerx = self.centerx
+
+
     def blitme(self):
         '''Draw the ship at its current location'''
         self.screen.blit(self.image, self.rect)
+
+        # Show explosion if enemy killed
+        if self.explode:
+            self.explosion_blit()
+
+
+    def fire_bullet(self):
+    # create a  new bullet and add it to th bullets group
+        if len(self.bullets) < self.si_settings.bullets_allowed:
+            new_bullet = Bullet(self.si_settings, self.screen, self.rect)
+            self.bullets.add(new_bullet)
