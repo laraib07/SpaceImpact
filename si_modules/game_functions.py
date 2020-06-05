@@ -1,10 +1,7 @@
 import sys
+from math import sqrt
 import pygame
-from pygame import mixer
 from si_modules.bullet import Bullet
-from si_modules.enemy import Enemy
-from time import sleep
-from math import sqrt, pow
 
 
 def check_keydown_event(event, si_settings, screen, player, bullets, stats):
@@ -52,7 +49,8 @@ def check_keyup_event(event, player):
         player.moving_left = False
 
 
-def check_events(si_settings, screen, player, enemy, bullets, stats, sb, play_button, restart_button):
+def check_events(si_settings, screen, player, enemy, bullets,
+                 stats, sb, play_button, restart_button):
     '''Respond to keypresses and mouse events'''
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -86,7 +84,8 @@ def check_restart_button(stats, restart_button, mouse_x, mouse_y, bullets, playe
         restart_game(stats, bullets, player, enemy, sb)
 
 
-def update_screen(si_settings, screen, player, enemy, ex, bullets, stats, play_button, restart_button, sb):
+def update_screen(si_settings, screen, player, enemy, ex,
+                  bullets, stats, play_button, restart_button, sb):
     '''Update images on the screen and flip to the new screen'''
     # Redraw the screen during each pass through the loop
     screen.fill(si_settings.bg_color)
@@ -117,7 +116,7 @@ def update_screen(si_settings, screen, player, enemy, ex, bullets, stats, play_b
     pygame.display.flip()
 
 
-def update_enemy(si_settings, enemy, player, stats, bullets, ex):
+def update_enemy(enemy, player, stats, bullets, ex):
     # update enemy position
     enemy.update()
 
@@ -168,11 +167,10 @@ def check_player_enemy_collision(player, enemy, ex):
         return True
 
 
-def explosion_animation(ex,enemy):
+def explosion_animation(ex, enemy):
     for i in range(9):
         ex.explosion_rect[i].center = enemy.rect.center
     ex.explode = True
-
 
 
 def life_loss(player, enemy, bullets, stats):

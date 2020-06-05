@@ -1,12 +1,12 @@
 import random
 import pygame
 from pygame import mixer
-from si_modules.settings import Settings
 
-class Enemy() :
+
+class Enemy():
     '''A class to represent a simple enemy.'''
 
-    def __init__(self, si_settings, screen) :
+    def __init__(self, si_settings, screen):
         '''Initialize enemy and set its starting position.'''
         self.screen = screen
         self.screen_rect = self.screen.get_rect()
@@ -23,25 +23,21 @@ class Enemy() :
         # Store the enemy's exact position
         self.x = float(self.rect.x)
 
-
     def random_position(self):
         self.rect.x = self.screen_rect.right
-        self.rect.bottom = random.randint(100,self.screen_rect.bottom)
+        self.rect.bottom = random.randint(100, self.screen_rect.bottom)
 
-
-    def blitme(self) :
+    def blitme(self):
         '''Draw the enemy at its current location.'''
-        self.screen.blit(self.image,self.rect)
+        self.screen.blit(self.image, self.rect)
 
-
-    def update(self) :
+    def update(self):
         '''Move the enemy left.'''
         self.rect.x -= self.si_settings.enemy_speed_factor
 
-
-    def check_edge(self) :
+    def check_edge(self):
         '''Return True if enemy reached edge of screen.'''
         return self.rect.x <= 0
 
-    def explosion_sound(self) :
+    def explosion_sound(self):
         self.explosion.play()
