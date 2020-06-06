@@ -25,6 +25,8 @@ class Player(Explosion):
 
         # add bullets
         self.bullets = Group()
+        self.speed_factor = si_settings.player_bullet_speed
+        self.color = si_settings.player_bullet_color
 
         # movement flags
         self.moving_up = False

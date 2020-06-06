@@ -92,7 +92,10 @@ def update_screen(si_settings, screen, player, enemy,
 
     # Redraw all bullets behind player and enemy
     for bullet in player.bullets.sprites():
-        bullet.draw_bullet()
+        bullet.draw_bullet(player.color)
+
+    for bullet in enemy.bullets.sprites():
+        bullet.draw_bullet(enemy.color)
 
     player.blitme()
     enemy.blitme()
@@ -115,6 +118,7 @@ def update_screen(si_settings, screen, player, enemy,
 def update_enemy(enemy, player, stats):
     # update enemy position
     enemy.update()
+    enemy.fire_bullet()
 
     if enemy.check_edge() or check_player_enemy_collision(player, enemy):
         life_loss(player, enemy,  stats)
@@ -124,14 +128,21 @@ def update_bullets(enemy, player, stats, si_settings, sb):
     '''Update bulllets`s position and remove old bullets'''
 
     # update bullet position
-    player.bullets.update()
+    player.bullets.update(player.speed_factor)
+    enemy.bullets.update(enemy.speed_factor)
 
+    
     # Get rid of old bullets
     for bullet in player.bullets.copy():
         if bullet.rect.right > 800:
             player.bullets.remove(bullet)
 
+    for bullet in enemy.bullets.copy():
+        if bullet.rect.left <= 0:
+            enemy.bullets.remove(bullet)
+
     check_bullet_enemy_collision(enemy, player, stats, si_settings, sb)
+    check_bullet_player_collision(enemy, player, stats, si_settings, sb)
 
 
 def check_bullet_enemy_collision(enemy, player, stats, si_settings, sb):
@@ -145,6 +156,19 @@ def check_bullet_enemy_collision(enemy, player, stats, si_settings, sb):
         explosion_animation(enemy)
         sb.prep_score()
         enemy.random_position()
+
+
+def check_bullet_player_collision(enemy, player, stats, si_settings, sb):
+    # Check for any bullet that have hit enemy
+    # if so get rid of enmy and bullet
+    collision = pygame.sprite.spritecollide(player, enemy.bullets, True)
+
+    if collision:
+        # Decrement life value
+        stats.life_left -= 1
+        player.explosion_sound()
+        explosion_animation(player)
+        player.center_ship()
 
 
 def check_player_enemy_collision(player, enemy):

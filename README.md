@@ -19,7 +19,7 @@ left   |  move left
 rigjt  |  move right
 space  |  fire bullet
 q      |  quit
-ESC    |  pause
+ESC    |  pause/play
 
 # Screenshots
 ![preview1](preview1.png)

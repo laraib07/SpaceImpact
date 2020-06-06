@@ -16,19 +16,16 @@ class Bullet(Sprite):
             0, 0, si_settings.bullet_width, si_settings.bullet_height)
         self.rect.center = ship_rect.center
 
-        self.color = si_settings.bullet_color
-        self.speed_factor = si_settings.bullet_speed_factor
-
         # Play sound when initialized
         fire_sound = mixer.Sound('resources/sounds/bullet.wav')
         fire_sound.play()
 
 
-    def update(self):
+    def update(self,speed_factor):
         '''Move the bullet right the screen'''
-        self.rect.x += self.speed_factor
+        self.rect.x += speed_factor
 
 
-    def draw_bullet(self):
+    def draw_bullet(self,color):
         '''Draw the bullet to the screen'''
-        pygame.draw.rect(self.screen, self.color, self.rect)
+        pygame.draw.rect(self.screen, color, self.rect)
