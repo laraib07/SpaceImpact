@@ -19,6 +19,7 @@ class Scoreboard():
         self.prep_score()
         self.prep_life()
 
+
     def prep_score(self):
         '''Turn the score into rendered image.'''
         rounded_score = int(round(self.stats.score, -1))
@@ -31,14 +32,17 @@ class Scoreboard():
         self.score_rect.left = self.screen_rect.left + 20
         self.score_rect.top = 5
 
+
     def show_score(self):
         '''Draw score to the screen.'''
         self.screen.blit(self.score_image, self.score_rect)
+
 
     def prep_life(self):
         '''Show life left'''
         self.life_image = pygame.image.load('resources/icons/life.png')
         self.life_rect = self.life_image.get_rect()
+
 
     def show_life(self):
         for life in range(self.stats.life_left):

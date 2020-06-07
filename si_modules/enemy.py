@@ -43,7 +43,7 @@ class Enemy(Explosion):
         self.screen.blit(self.image, self.rect)
 
         # Show explosion if enemy killed
-        if self.explode:
+        if self.do_explode:
             self.explosion_blit()
 
 

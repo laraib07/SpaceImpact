@@ -12,13 +12,13 @@ class Player(Explosion):
         self.screen = screen
         self.si_settings = si_settings
         
-        # initialize explosion __init__()
-        super().__init__()
-
         # Load player image and get its rect
         self.image = pygame.image.load('resources/icons/player.png')
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
+
+        # initialize explosion __init__()
+        super().__init__()
 
         # start the ship at left centre of the screen
         self.center_ship()
@@ -67,7 +67,7 @@ class Player(Explosion):
         self.screen.blit(self.image, self.rect)
 
         # Show explosion if enemy killed
-        if self.explode:
+        if self.do_explode:
             self.explosion_blit()
 
 

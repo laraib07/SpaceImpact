@@ -1,7 +1,6 @@
 import sys
-from math import sqrt
 import pygame
-from si_modules.bullet import Bullet
+from math import sqrt
 
 
 def check_keydown_event(event, si_settings, screen, player,  stats):
@@ -22,7 +21,7 @@ def check_keydown_event(event, si_settings, screen, player,  stats):
         elif event.key == pygame.K_SPACE:
             player.fire_bullet()
 
-    if event.key == pygame.K_ESCAPE:
+    if event.key == pygame.K_ESCAPE and not stats.game_over:
         if stats.game_active:
             stats.game_active = False
             pygame.mouse.set_visible(True)
@@ -30,7 +29,7 @@ def check_keydown_event(event, si_settings, screen, player,  stats):
             stats.game_active = True
             pygame.mouse.set_visible(False)
 
-    elif event.key == pygame.K_q:
+    if event.key == pygame.K_q:
         sys.exit()
 
 
@@ -74,7 +73,6 @@ def check_play_button(stats, play_button, mouse_x, mouse_y):
     '''Start game when the player clicks Play.'''
     if play_button.rect.collidepoint(mouse_x, mouse_y) and not stats.game_over:
         stats.game_active = True
-        # Hide the mouse cursor.
         pygame.mouse.set_visible(False)
 
 
@@ -141,63 +139,42 @@ def update_bullets(enemy, player, stats, si_settings, sb):
         if bullet.rect.left <= 0:
             enemy.bullets.remove(bullet)
 
-    check_bullet_enemy_collision(enemy, player, stats, si_settings, sb)
-    check_bullet_player_collision(enemy, player, stats, si_settings, sb)
+    check_bullet_collision(enemy, player, stats, si_settings, sb)
 
 
-def check_bullet_enemy_collision(enemy, player, stats, si_settings, sb):
-    # Check for any bullet that have hit enemy
-    # if so get rid of enmy and bullet
-    collision = pygame.sprite.spritecollide(enemy, player.bullets, True)
+def check_bullet_collision(enemy, player, stats, si_settings, sb):
+    # Check for any bullet that have hit any ship
+    # if so get rid of ship and bullet
+    enemy_bullet_collision = pygame.sprite.spritecollide(enemy, player.bullets, True)
+    player_bullet_collision = pygame.sprite.spritecollide(player, enemy.bullets, True)
 
-    if collision:
+    if enemy_bullet_collision:
         stats.score += si_settings.enemy_points
-        enemy.explosion_sound()
-        explosion_animation(enemy)
+        enemy.explode()
         sb.prep_score()
         enemy.random_position()
 
-
-def check_bullet_player_collision(enemy, player, stats, si_settings, sb):
-    # Check for any bullet that have hit enemy
-    # if so get rid of enmy and bullet
-    collision = pygame.sprite.spritecollide(player, enemy.bullets, True)
-
-    if collision:
-        # Decrement life value
-        stats.life_left -= 1
-        player.explosion_sound()
-        explosion_animation(player)
-        player.center_ship()
+    if player_bullet_collision:
+        player.explode()
+        life_loss(player, enemy,  stats)
 
 
 def check_player_enemy_collision(player, enemy):
     distance = sqrt(pow(player.rect.centerx - enemy.rect.centerx,
                         2) + pow(player.rect.centery - enemy.rect.centery, 2))
     if distance < 50:
-        enemy.explosion_sound()
-        explosion_animation(enemy)
-        explosion_animation(player)
+        enemy.explode()
+        player.explode()
         return True
 
 
-def explosion_animation(ship):
-    for i in range(9):
-        ship.explosion_rect[i].center = ship.rect.center
-    ship.explode = True
-
-
 def life_loss(player, enemy, stats):
+    clear_screen(player, enemy)
+    
     if stats.life_left > 0:
-        # Decrement life value
         stats.life_left -= 1
-        player.bullets.empty()
-        player.center_ship()
-        enemy.random_position()
 
     else:
-        enemy.random_position()
-        player.center_ship()
         stats.game_active = False
         stats.game_over = True
         pygame.mouse.set_visible(True)
@@ -206,8 +183,12 @@ def life_loss(player, enemy, stats):
 def restart_game(stats, player, enemy, sb):
     stats.reset_stats()
     sb.prep_score()
-    player.bullets.empty()
-    enemy.random_position()
-
-    # Hide the mouse cursor.
+    clear_screen(player, enemy)
     pygame.mouse.set_visible(False)
+
+
+def clear_screen(player, enemy):
+    player.bullets.empty()
+    player.center_ship()
+    enemy.bullets.empty()
+    enemy.random_position()
