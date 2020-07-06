@@ -1,11 +1,13 @@
 import sys
 import pygame
-from math import sqrt
+import threading
+from math import hypot
 
 
 def check_keydown_event(event, si_settings, screen, player,  stats):
     '''Responce to keypresses.'''
-    if stats.game_active:
+    
+    if stats.game_active and player.active:
         if event.key == pygame.K_UP:
             player.moving_up = True
 
@@ -48,7 +50,7 @@ def check_keyup_event(event, player):
         player.moving_left = False
 
 
-def check_events(si_settings, screen, player, enemy, 
+def check_events(si_settings, screen, player, enemy,
                  stats, sb, play_button, restart_button):
     '''Respond to keypresses and mouse events'''
     for event in pygame.event.get():
@@ -83,10 +85,17 @@ def check_restart_button(stats, restart_button, mouse_x, mouse_y,  player, enemy
 
 
 def update_screen(si_settings, screen, player, enemy,
-                   stats, play_button, restart_button, sb):
+                  stats, play_button, restart_button, sb):
     '''Update images on the screen and flip to the new screen'''
     # Redraw the screen during each pass through the loop
     screen.fill(si_settings.bg_color)
+
+    # Draw the play button if the game is inactive
+    if not stats.game_active and not stats.game_over:
+        play_button.draw_button()
+
+    if stats.game_over:
+        restart_button.draw_button()
 
     # Redraw all bullets behind player and enemy
     for bullet in player.bullets.sprites():
@@ -102,21 +111,15 @@ def update_screen(si_settings, screen, player, enemy,
     sb.show_score()
     sb.show_life()
 
-    # Draw the play button if the game is inactive
-    if not stats.game_active and not stats.game_over:
-        play_button.draw_button()
-
-    if stats.game_over:
-        restart_button.draw_button()
-
     # make hte most recently drawn screen visible
     pygame.display.flip()
 
 
 def update_enemy(enemy, player, stats):
     # update enemy position
-    enemy.update()
-    enemy.fire_bullet()
+    if enemy.active:
+        enemy.update()
+        enemy.fire_bullet()
 
     if enemy.check_edge() or check_player_enemy_collision(player, enemy):
         life_loss(player, enemy,  stats)
@@ -129,7 +132,6 @@ def update_bullets(enemy, player, stats, si_settings, sb):
     player.bullets.update(player.speed_factor)
     enemy.bullets.update(enemy.speed_factor)
 
-    
     # Get rid of old bullets
     for bullet in player.bullets.copy():
         if bullet.rect.right > 800:
@@ -160,8 +162,9 @@ def check_bullet_collision(enemy, player, stats, si_settings, sb):
 
 
 def check_player_enemy_collision(player, enemy):
-    distance = sqrt(pow(player.rect.centerx - enemy.rect.centerx,
-                        2) + pow(player.rect.centery - enemy.rect.centery, 2))
+    distance = hypot(player.rect.centerx - enemy.rect.centerx,
+                     player.rect.centery - enemy.rect.centery)
+
     if distance < 50:
         enemy.explode()
         player.explode()
@@ -169,8 +172,11 @@ def check_player_enemy_collision(player, enemy):
 
 
 def life_loss(player, enemy, stats):
-    clear_screen(player, enemy)
-    
+    player.active  = False
+    enemy.active  = False
+    clear = threading.Thread(target=clear_screen, args=(player, enemy,))
+    clear.start()
+
     if stats.life_left > 0:
         stats.life_left -= 1
 
@@ -189,6 +195,10 @@ def restart_game(stats, player, enemy, sb):
 
 def clear_screen(player, enemy):
     player.bullets.empty()
-    player.center_ship()
+    player.hide()
     enemy.bullets.empty()
     enemy.random_position()
+    pygame.time.wait(1000)
+    enemy.active = True
+    player.active = True
+    player.center_ship()

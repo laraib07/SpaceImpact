@@ -27,10 +27,8 @@ class Enemy(Explosion):
         self.color = si_settings.enemy_bullet_color
 
         # Start each enemy at random position
+        self.active = True
         self.random_position()
-
-        # Store the enemy's exact position
-        self.x = float(self.rect.x)
 
 
     def random_position(self):
@@ -54,7 +52,7 @@ class Enemy(Explosion):
 
     def check_edge(self):
         '''Return True if enemy reached edge of screen.'''
-        return self.rect.x <= 0
+        return self.rect.right <= 0
 
     
     def fire_bullet(self):

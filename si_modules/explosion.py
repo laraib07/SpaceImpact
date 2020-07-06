@@ -25,7 +25,6 @@ class Explosion:
             self.screen.blit(
                 self.explosion_images[self.next_image], self.explosion_rect[self.next_image])
             self.next_image += 1
-            self.tick = pygame.time.get_ticks()
 
         else:
             self.next_image = 0

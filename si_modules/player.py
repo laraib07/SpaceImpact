@@ -21,6 +21,7 @@ class Player(Explosion):
         super().__init__()
 
         # start the ship at left centre of the screen
+        self.active = True
         self.center_ship()
 
         # add bullets
@@ -28,23 +29,21 @@ class Player(Explosion):
         self.speed_factor = si_settings.player_bullet_speed
         self.color = si_settings.player_bullet_color
 
-        # movement flags
-        self.moving_up = False
-        self.moving_down = False
-        self.moving_right = False
-        self.moving_left = False
-
-
+        # initial movement flags set to false
+        self.stop_movement()
+        
+        
     def center_ship(self):
         self.rect.midleft = self.screen_rect.midleft
+
+
+    def update(self):
+        '''Update the player's postion based on movement flag.'''
 
         # store a decimal value for the player's center.
         self.centery = float(self.rect.centery)
         self.centerx = float(self.rect.centerx)
 
-
-    def update(self):
-        '''Update the player's postion based on movement flag.'''
         if self.moving_up and self.rect.top > 0:
             self.centery -= self.si_settings.player_speed_factor
 
@@ -76,3 +75,18 @@ class Player(Explosion):
         if len(self.bullets) < self.si_settings.bullets_allowed:
             new_bullet = Bullet(self.si_settings, self.screen, self.rect)
             self.bullets.add(new_bullet)
+
+        
+    def hide(self):
+        self.rect.midright = self.screen_rect.midleft
+        self.stop_movement()
+
+
+    def stop_movement(self):
+        # movement flags
+        self.moving_up = False
+        self.moving_down = False
+        self.moving_right = False
+        self.moving_left = False
+
+
