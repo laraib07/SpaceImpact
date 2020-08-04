@@ -10,49 +10,54 @@ from si_modules.scoreboard import Scoreboard
 import si_modules.game_functions as gf
 
 
-def run_game():
-    # create screen
-    si_settings = Settings()
-    screen = pygame.display.set_mode(si_settings.screen_size)
+class SpaceImpact():
+    '''
+    Class to represent spaceimpact game.
+    '''
+    def __init__(self):
+        # create screen
+        self.si_settings = Settings()
+        self.screen = pygame.display.set_mode(self.si_settings.screen_size)
 
-    # Title and icon
-    pygame.display.set_caption("Space Impact")
-    icon = pygame.image.load(si_settings.game_icon)
-    pygame.display.set_icon(icon)
+        # Title and icon
+        pygame.display.set_caption("Space Impact")
+        icon = pygame.image.load(self.si_settings.game_icon)
+        pygame.display.set_icon(icon)
 
 
-    # creating player and  enemy 
-    player = Player(si_settings, screen)
-    enemy = Enemy(si_settings, screen)
+        # creating player and  enemy 
+        self.player = Player(self.si_settings, self.screen)
+        self.enemy = Enemy(self.si_settings, self.screen)
 
-    # Make the Play and Restart button.
-    play_button = Button(screen, "PLAY")
-    restart_button = Button(screen, "RESTART")
+        # Make the Play and Restart button.
+        self.play_button = Button(self.screen, "PLAY")
+        self.restart_button = Button(self.screen, "RESTART")
 
-    # Create instance to store game stats
-    stats = GameStats(si_settings)
-    sb = Scoreboard(si_settings, screen, stats)
+        # Create instance to store game stats
+        self.stats = GameStats(self.si_settings)
+        self.sb = Scoreboard(self.si_settings, self.screen, self.stats)
 
-    # set frames per second
-    clock = pygame.time.Clock()
+        # set frames per second
+        self.clock = pygame.time.Clock()
 
+
+def run(game):
     # game loop
     while True:
-        clock.tick(30)
+        game.clock.tick(30)
 
-        gf.check_events(si_settings, screen, player, enemy,
-                         stats, sb, play_button, restart_button)
+        gf.check_events(game)
 
-        if stats.game_active:
-            player.update()
-            gf.update_enemy(enemy, player, stats)
-            gf.update_bullets(enemy, player,  stats, si_settings, sb)
+        if game.stats.game_active:
+            game.player.update()
+            gf.update_enemy(game.player, game.enemy, game.stats)
+            gf.update_bullets(game)
 
-        gf.update_screen(si_settings, screen, player, enemy,
-                          stats, play_button, restart_button, sb)
+        gf.update_screen(game)
 
 
 if __name__ == "__main__":
     pygame.init()
-    run_game()
+    game = SpaceImpact()
+    run(game)
     pygame.quit()

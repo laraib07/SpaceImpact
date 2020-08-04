@@ -15,7 +15,7 @@ class Enemy(Explosion):
         self.si_settings = si_settings
 
         # initialize explosion __init__()
-        super().__init__()  
+        super().__init__()
 
         # Load the enemy image and set its rect attribute
         self.image = pygame.image.load('resources/icons/enemy.png')
@@ -33,7 +33,7 @@ class Enemy(Explosion):
 
     def random_position(self):
         self.rect.x = self.screen_rect.right
-        self.rect.bottom = random.randint(100, self.screen_rect.bottom)
+        self.rect.bottom = random.randint(self.rect.width, self.screen_rect.bottom)
 
 
     def blitme(self):
@@ -52,11 +52,11 @@ class Enemy(Explosion):
 
     def check_edge(self):
         '''Return True if enemy reached edge of screen.'''
-        return self.rect.right <= 0
+        return self.rect.right <= self.screen_rect.midleft[0]
 
-    
+
     def fire_bullet(self):
-    # create a  new bullet and add it to th bullets group
+        # create a  new bullet and add it to th bullets group
         fire = random.choice([False]*30 + [True])
         if fire:
             new_bullet = Bullet(self.si_settings, self.screen, self.rect)

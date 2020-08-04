@@ -11,7 +11,7 @@ class Player(Explosion):
         '''Initialize the player and set its starting position.'''
         self.screen = screen
         self.si_settings = si_settings
-        
+
         # Load player image and get its rect
         self.image = pygame.image.load('resources/icons/player.png')
         self.rect = self.image.get_rect()
@@ -31,8 +31,8 @@ class Player(Explosion):
 
         # initial movement flags set to false
         self.stop_movement()
-        
-        
+
+
     def center_ship(self):
         self.rect.midleft = self.screen_rect.midleft
 
@@ -71,12 +71,12 @@ class Player(Explosion):
 
 
     def fire_bullet(self):
-    # create a  new bullet and add it to th bullets group
+        # create a  new bullet and add it to th bullets group
         if len(self.bullets) < self.si_settings.bullets_allowed:
             new_bullet = Bullet(self.si_settings, self.screen, self.rect)
             self.bullets.add(new_bullet)
 
-        
+
     def hide(self):
         self.rect.midright = self.screen_rect.midleft
         self.stop_movement()
