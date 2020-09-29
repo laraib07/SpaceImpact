@@ -197,6 +197,7 @@ def clear_screen(player, enemy):
     enemy.bullets.empty()
     enemy.random_position()
     pygame.time.wait(1000)
-    enemy.active = True
     player.active = True
     player.center_ship()
+    pygame.time.wait(1000)
+    enemy.active = True
