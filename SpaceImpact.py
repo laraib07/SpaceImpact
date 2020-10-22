@@ -41,23 +41,23 @@ class SpaceImpact():
         self.clock = pygame.time.Clock()
 
 
-def run(game):
-    # game loop
-    while True:
-        game.clock.tick(30)
+    def run(self):
+        # game loop
+        while True:
+            self.clock.tick(30)
 
-        gf.check_events(game)
+            gf.check_events(self)
 
-        if game.stats.game_active:
-            game.player.update()
-            gf.update_enemy(game.player, game.enemy, game.stats)
-            gf.update_bullets(game)
+            if self.stats.game_active:
+                self.player.update()
+                gf.update_enemy(self.player, self.enemy, self.stats)
+                gf.update_bullets(self)
 
-        gf.update_screen(game)
+            gf.update_screen(self)
 
 
 if __name__ == "__main__":
     pygame.init()
     game = SpaceImpact()
-    run(game)
+    game.run()
     pygame.quit()
