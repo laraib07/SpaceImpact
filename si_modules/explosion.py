@@ -5,8 +5,9 @@ from pygame import mixer
 class Explosion:
     '''Class to animate explosions.'''
 
-    def __init__(self):
+    def __init__(self, screen):
         '''Initialize explosion variables.'''
+        self.screen = screen
         self.explosion_images = []
         self.explosion_rect = []
 
@@ -20,7 +21,7 @@ class Explosion:
         self.explosion = mixer.Sound('resources/sounds/explosion.wav')
 
 
-    def explosion_blit(self):
+    def blit(self):
         if self.next_image < len(self.explosion_images):
             self.screen.blit(
                 self.explosion_images[self.next_image], self.explosion_rect[self.next_image])
@@ -31,10 +32,10 @@ class Explosion:
             self.do_explode = False
 
 
-    def explode(self):
+    def explode(self, other):
         self.explosion.play()
 
         for i in range(9):
-            self.explosion_rect[i].center = self.rect.center
+            self.explosion_rect[i].center = other.rect.center
 
         self.do_explode = True

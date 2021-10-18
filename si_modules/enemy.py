@@ -2,47 +2,27 @@ import random
 import pygame
 from pygame.sprite import Group
 from si_modules.bullet import Bullet
-from si_modules.explosion import Explosion
+from si_modules.ship import Ship
 
 
-class Enemy(Explosion):
+class Enemy(Ship):
     '''A class to represent a simple enemy.'''
 
     def __init__(self, si_settings, screen):
         '''Initialize enemy and set its starting position.'''
-        self.screen = screen
-        self.screen_rect = self.screen.get_rect()
-        self.si_settings = si_settings
 
-        # initialize explosion __init__()
-        super().__init__()
+        # initialize Ship __init__()
+        super().__init__("enemy", si_settings, screen)
 
-        # Load the enemy image and set its rect attribute
-        self.image = pygame.image.load('resources/icons/enemy.png')
-        self.rect = self.image.get_rect()
 
-        # add bullets
-        self.bullets = Group()
+        # add bullets color and speed
         self.speed_factor = si_settings.enemy_bullet_speed
         self.color = si_settings.enemy_bullet_color
 
-        # Start each enemy at random position
-        self.active = True
-        self.random_position()
 
-
-    def random_position(self):
+    def init_position(self):
         self.rect.x = self.screen_rect.right
         self.rect.bottom = random.randint(self.rect.width, self.screen_rect.bottom)
-
-
-    def blitme(self):
-        '''Draw the enemy at its current location.'''
-        self.screen.blit(self.image, self.rect)
-
-        # Show explosion if enemy killed
-        if self.do_explode:
-            self.explosion_blit()
 
 
     def update(self):

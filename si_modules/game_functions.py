@@ -148,15 +148,15 @@ def check_bullet_collision(game):
                                                          True)
     if enemy_bullet_collision:
         game.stats.score += game.si_settings.enemy_points
-        game.enemy.explode()
+        game.enemy.explosion.explode(game.enemy)
         game.sb.prep_score()
-        game.enemy.random_position()
+        game.enemy.init_position()
 
     player_bullet_collision = pygame.sprite.spritecollide(game.player,
                                                           game.enemy.bullets,
                                                           True)
     if player_bullet_collision:
-        game.player.explode()
+        game.player.explosion.explode(game.player)
         life_loss(game.player, game.enemy, game.stats)
 
 
@@ -165,8 +165,8 @@ def check_player_enemy_collision(player, enemy):
                      player.rect.centery - enemy.rect.centery)
 
     if distance < enemy.rect.width:
-        enemy.explode()
-        player.explode()
+        enemy.explosion.explode(enemy)
+        player.explosion.explode(player)
         return True
 
 
@@ -195,9 +195,9 @@ def clear_screen(player, enemy):
     player.bullets.empty()
     player.hide()
     enemy.bullets.empty()
-    enemy.random_position()
+    enemy.init_position()
     pygame.time.wait(1000)
     player.active = True
-    player.center_ship()
+    player.init_position()
     pygame.time.wait(1000)
     enemy.active = True
