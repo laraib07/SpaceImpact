@@ -37,7 +37,7 @@ class Ship(ABC):
         self.screen.blit(self.image, self.rect)
 
         # Showxplosion if ship exploded
-        if self.explosion.do_explode:
+        if self.explosion._explode:
             self.explosion.blit()
 
         

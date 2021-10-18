@@ -8,34 +8,34 @@ class Explosion:
     def __init__(self, screen):
         '''Initialize explosion variables.'''
         self.screen = screen
-        self.explosion_images = []
-        self.explosion_rect = []
+        self.images = []
+        self.positions = []
 
         for i in range(9):
-            self.image_name = f"resources/explosion-frames/explosion_image_{i}.png"
-            self.explosion_images.append(pygame.image.load(self.image_name))
-            self.explosion_rect.append(self.explosion_images[i].get_rect())
+            self.img = f"resources/explosion-frames/explosion_image_{i}.png"
+            self.images.append(pygame.image.load(self.img))
+            self.positions.append(self.images[i].get_rect())
 
-        self.next_image = 0
-        self.do_explode = False
+        self.index = 0
+        self._explode = False
         self.explosion = mixer.Sound('resources/sounds/explosion.wav')
 
 
     def blit(self):
-        if self.next_image < len(self.explosion_images):
+        if self.index < len(self.images):
             self.screen.blit(
-                self.explosion_images[self.next_image], self.explosion_rect[self.next_image])
-            self.next_image += 1
+                self.images[self.index], self.positions[self.index])
+            self.index += 1
 
         else:
-            self.next_image = 0
-            self.do_explode = False
+            self.index = 0
+            self._explode = False
 
 
     def explode(self, other):
         self.explosion.play()
 
         for i in range(9):
-            self.explosion_rect[i].center = other.rect.center
+            self.positions[i].center = other.rect.center
 
-        self.do_explode = True
+        self._explode = True
