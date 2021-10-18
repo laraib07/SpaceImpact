@@ -25,7 +25,7 @@ class Scoreboard():
         rounded_score = int(round(self.stats.score, -1))
         score_str = "{:,}".format(rounded_score)
         self.score_image = self.font.render(
-            f"SCORE : {score_str}", True, self.text_color, self.si_settings.bg_color)
+            f"SCORE : {score_str}", True, self.text_color, self.si_settings['bg_color'])
 
         # Display the score at the top left of the screen.
         self.score_rect = self.score_image.get_rect()

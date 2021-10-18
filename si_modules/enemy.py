@@ -15,11 +15,6 @@ class Enemy(Ship):
         super().__init__("enemy", si_settings, screen)
 
 
-        # add bullets color and speed
-        self.speed_factor = si_settings.enemy_bullet_speed
-        self.color = si_settings.enemy_bullet_color
-
-
     def init_position(self):
         self.rect.x = self.screen_rect.right
         self.rect.bottom = random.randint(self.rect.width, self.screen_rect.bottom)
@@ -27,7 +22,7 @@ class Enemy(Ship):
 
     def update(self):
         '''Move the enemy left.'''
-        self.rect.x -= self.si_settings.enemy_speed_factor
+        self.rect.x -= self.si_settings['enemy']['speed']
 
 
     def check_edge(self):

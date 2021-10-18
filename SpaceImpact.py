@@ -16,12 +16,12 @@ class SpaceImpact():
     '''
     def __init__(self):
         # create screen
-        self.si_settings = Settings()
-        self.screen = pygame.display.set_mode(self.si_settings.screen_size)
+        self.si_settings = Settings
+        self.screen = pygame.display.set_mode(self.si_settings['screen_size'])
 
         # Title and icon
         pygame.display.set_caption("Space Impact")
-        icon = pygame.image.load(self.si_settings.game_icon)
+        icon = pygame.image.load(self.si_settings['game_icon'])
         pygame.display.set_icon(icon)
 
 

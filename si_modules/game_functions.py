@@ -84,7 +84,7 @@ def check_restart_button(game, mouse_x, mouse_y):
 def update_screen(game):
     '''Update images on the screen and flip to the new screen'''
     # Redraw the screen during each pass through the loop
-    game.screen.fill(game.si_settings.bg_color)
+    game.screen.fill(game.si_settings['bg_color'])
 
     # Draw the play button if the game is inactive
     if not game.stats.game_active and not game.stats.game_over:
@@ -147,7 +147,7 @@ def check_bullet_collision(game):
                                                          game.player.bullets,
                                                          True)
     if enemy_bullet_collision:
-        game.stats.score += game.si_settings.enemy_points
+        game.stats.score += game.si_settings['enemy']['points']
         game.enemy.explosion.explode(game.enemy)
         game.sb.prep_score()
         game.enemy.init_position()

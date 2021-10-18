@@ -15,20 +15,21 @@ class Ship(ABC):
 
         # Load ship image and its attribute
         self.image = pygame.image.load(
-                'resources/icons/' + name + '.png'
+                si_settings[name]['image']
                 )
         self.rect = self.image.get_rect()
 
         # Add bullets
         self.bullets = Group()
-
+        self.speed_factor = si_settings[name]['bullet_speed']
+        self.color = si_settings[name]['bullet_color']
         # Start ship and position it 
         self.active = True
         self.init_position()
 
 
         # Add explosion variables
-        self.explosion = Explosion(screen)
+        self.explosion = Explosion(screen, si_settings)
 
 
     def blitme(self):

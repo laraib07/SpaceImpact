@@ -8,7 +8,7 @@ class GameStats():
 
     def reset_stats(self):
         '''Initialize stat that can change during game.'''
-        self.life_left = self.si_settings.player_limit
+        self.life_left = self.si_settings['player']['life']
         self.score = 0
 
         # Start Game in inactive state

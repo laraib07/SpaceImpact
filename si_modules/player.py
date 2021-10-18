@@ -14,10 +14,6 @@ class Player(Ship):
         super().__init__("player", si_settings, screen)
 
 
-        # add bullets color and speed
-        self.speed_factor = si_settings.player_bullet_speed
-        self.color = si_settings.player_bullet_color
-
         # initial movement flags set to false
         self.stop_movement()
 
@@ -30,21 +26,21 @@ class Player(Ship):
         '''Update the player's postion based on movement flag.'''
 
         if self.moving_up and self.rect.top > 0:
-            self.rect.centery -= self.si_settings.player_speed_factor
+            self.rect.centery -= self.si_settings['player']['speed']
 
         if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
-            self.rect.centery += self.si_settings.player_speed_factor
+            self.rect.centery += self.si_settings['player']['speed']
 
         if self.moving_right and self.rect.right < self.screen_rect.right:
-            self.rect.centerx += self.si_settings.player_speed_factor
+            self.rect.centerx += self.si_settings['player']['speed']
 
         if self.moving_left and self.rect.left > self.screen_rect.left:
-            self.rect.centerx -= self.si_settings.player_speed_factor
+            self.rect.centerx -= self.si_settings['player']['speed']
 
 
     def fire_bullet(self):
         # create a  new bullet and add it to th bullets group
-        if len(self.bullets) < self.si_settings.bullets_allowed:
+        if len(self.bullets) < self.si_settings['bullet']['limit']:
             new_bullet = Bullet(self.si_settings, self.screen, self.rect)
             self.bullets.add(new_bullet)
 

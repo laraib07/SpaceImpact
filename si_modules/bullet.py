@@ -13,11 +13,14 @@ class Bullet(Sprite):
 
         # create a bullet rect at (0,0) and then set correct position
         self.rect = pygame.Rect(
-            0, 0, si_settings.bullet_width, si_settings.bullet_height)
+            0, 0, 
+            si_settings['bullet']['width'], 
+            si_settings['bullet']['height'], 
+            )
         self.rect.center = ship_rect.center
 
         # Play sound when initialized
-        fire_sound = mixer.Sound('resources/sounds/bullet.wav')
+        fire_sound = mixer.Sound(si_settings['bullet']['sound'])
         fire_sound.play()
 
 
