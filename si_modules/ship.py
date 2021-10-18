@@ -28,7 +28,6 @@ class Ship(ABC):
 
 
         # Add explosion variables
-        self.explode = False
         self.explosion = Explosion(screen)
 
 
